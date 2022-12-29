@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 const Path = require("path")
 const WebpackNodeExternals = require("webpack-node-externals")
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin")
@@ -16,7 +15,7 @@ const ConfigBase = {
   module: {
     rules: [
       {
-        test: /\.(js|ts)x?$/i,
+        test: /\.[jt]sx?$/i,
         exclude: /node_modules/,
         use: ["babel-loader"]
       },
@@ -52,7 +51,7 @@ const ConfigBase = {
   },
   watch: NODE_ENV === "development",
   resolveLoader: {
-    modules: ["node_modules", Path.resolve(__dirname, "modules")]
+    modules: ["node_modules", Path.resolve(__dirname, "loaders")]
   },
   infrastructureLogging: {
     level: "info",
