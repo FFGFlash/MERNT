@@ -5,11 +5,23 @@ import Winston from "winston"
 import Cors from "cors"
 import CookieParser from "cookie-parser"
 import Path from "path"
+import Mongoose from "mongoose"
 
-const { PORT = 8080, SECRET, NODE_ENV = "production" } = process.env
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+process.env.NODE_ENV === "development" && require("dotenv").config()
 
-const App = Express()
-const Server = createServer(App)
+const {
+  PORT = 8080,
+  SECRET,
+  NODE_ENV = "production",
+  MONGO_HOST,
+  MONGO_DB,
+  MONGO_USER,
+  MONGO_PASS,
+  MONGO_TIMEOUT_MS,
+  MONGO_KEEP_ALIVE_MS
+} = process.env
+
 const Logger = Winston.createLogger({
   level: "info",
   format: Winston.format.json(),
@@ -23,6 +35,34 @@ const Logger = Winston.createLogger({
     })
   ]
 })
+
+const Database = Mongoose.connection
+
+Database.on("connecting", () => Logger.info("Connecting to MongoDB..."))
+Database.on("connected", () => Logger.info("Connected to MongoDB"))
+Database.once("open", () => Logger.info("Connection with MongoDB is open"))
+Database.on("disconnecting", () => Logger.info("Disconnecting from MongoDB"))
+Database.on("disconnected", () => Logger.info("Disconnected from MongoDB"))
+
+Database.on("error", err => Logger.error(err.message))
+
+Mongoose.set("strictQuery", false)
+
+//* If provided with a host connect to MongoDB
+MONGO_HOST &&
+  Mongoose.connect(
+    MONGO_HOST,
+    {
+      dbName: MONGO_DB,
+      user: MONGO_USER,
+      pass: MONGO_PASS,
+      connectTimeoutMS: (MONGO_TIMEOUT_MS && parseInt(MONGO_TIMEOUT_MS)) || 5000
+    },
+    err => Logger.error(err?.message)
+  )
+
+const App = Express()
+const Server = createServer(App)
 
 //* Enable react reloading on file change while in development mode
 if (NODE_ENV === "development") {
