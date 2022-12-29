@@ -18,8 +18,7 @@ const {
   MONGO_DB,
   MONGO_USER,
   MONGO_PASS,
-  MONGO_TIMEOUT_MS,
-  MONGO_KEEP_ALIVE_MS
+  MONGO_TIMEOUT_MS
 } = process.env
 
 const Logger = Winston.createLogger({
