@@ -1,11 +1,102 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+/* Setup Tailwind Base Layer, Load Custom Font and Set Default Styles */
+@layer base {
+  @font-face {
+    font-family: Roboto;
+    font-weight: 100;
+    font-style: normal;
+    src: url("./fonts/Roboto-Thin.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 100;
+    font-style: italic;
+    src: url("./fonts/Roboto-ThinItalic.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 300;
+    font-style: normal;
+    src: url("./fonts/Roboto-Light.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 300;
+    font-style: italic;
+    src: url("./fonts/Roboto-LightItalic.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 400;
+    font-style: normal;
+    src: url("./fonts/Roboto-Regular.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 400;
+    font-style: italic;
+    src: url("./fonts/Roboto-Italic.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 500;
+    font-style: normal;
+    src: url("./fonts/Roboto-Medium.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 500;
+    font-style: italic;
+    src: url("./fonts/Roboto-MediumItalic.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 700;
+    font-style: normal;
+    src: url("./fonts/Roboto-Bold.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 700;
+    font-style: italic;
+    src: url("./fonts/Roboto-BoldItalic.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 900;
+    font-style: normal;
+    src: url("./fonts/Roboto-Black.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: Roboto;
+    font-weight: 900;
+    font-style: italic;
+    src: url("./fonts/Roboto-BlackItalic.ttf") format("ttf");
+  }
+
+  * {
+    @apply m-0;
+    @apply p-0;
+    @apply box-border;
+    @apply font-roboto;
+  }
+
+  h1 {
+    @apply text-9xl;
+    @apply font-bold;
+  }
 }
