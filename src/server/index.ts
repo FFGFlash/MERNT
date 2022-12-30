@@ -85,15 +85,25 @@ App.use(
   CookieParser(SECRET)
 )
 
-//* Serve static files
-App.use(Express.static(Path.join(__dirname, "public")))
+//* Error example for testing the error handler
+App.get("/error", () => {
+  throw new Error("Error!")
+})
 
 //* Render Front-End
-App.get("*", (_, response) =>
-  response.sendFile(Path.join(__dirname, "public/index.html"))
+App.get("*", (req, res, next) => {
+  const expectedResponse = req.headers.accept && req.headers.accept.split(",")
+  if (!expectedResponse || !expectedResponse.includes("text/html"))
+    return next()
+  res.sendFile(Path.join(__dirname, "public/index.html"))
+})
+
+//* Serve static files, only if there wasn't an expected response of "text/html"
+App.use(Express.static(Path.join(__dirname, "public")), (_, res) =>
+  res.sendStatus(404)
 )
 
-//* Handle Server Side Errors
+//* Handle Server Side Errors, if something threw an error while trying to handle a request
 App.use((err: Error, _: Request, res: Response, next: NextFunction) => {
   Logger.error(err.message)
   if (res.headersSent) return next(err)

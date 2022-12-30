@@ -1,55 +1,99 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const Path = require("path")
 const WebpackNodeExternals = require("webpack-node-externals")
-const MiniCSSExtractPlugin = require("mini-css-extract-plugin")
-const CSSMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin")
+const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin")
 const WebpackShellPlugin = require("webpack-shell-plugin-next")
-const HTMLWebpackPlugin = require("html-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const WebpackMerge = require("webpack-merge")
 
 const { NODE_ENV = "production" } = process.env
 
+const StyleLoader = [
+  { loader: "css-loader", options: { importLoaders: 1 } },
+  "postcss-loader",
+  "sass-loader"
+]
+StyleLoader.unshift(
+  NODE_ENV === "development" ? "style-loader" : MiniCssExtractPlugin.loader
+)
+
 const ConfigBase = {
   mode: NODE_ENV,
   module: {
+    //* Used to add additional paths to the build directory
+    generator: {
+      "asset/resource": { outputPath: "assets" },
+      "asset": { outputPath: "assets" }
+    },
     rules: [
+      //* Image Assets
+      {
+        test: /\.(?:(p)?j(fi(f)?|if|p(e(g)?|g)?)|(a)?(png|avif)|gif|webp|svg|ico|cur|tif(f)?|bmp)$/i,
+        type: "asset/resource",
+        generator: { outputPath: "assets/images", publicPath: "assets/images/" }
+      },
+      //* Font Assets
+      {
+        test: /\.(?:ttf|otf|woff(2)?)$/i,
+        type: "asset/resource",
+        generator: { outputPath: "assets/fonts", publicPath: "assets/fonts/" }
+      },
+      //* Json5 Support
+      {
+        test: /\.json5$/i,
+        exclude: /node_modules/,
+        use: "json5-loader",
+        generator: { outputPath: "assets/json", publicPath: "assets/json/" }
+      },
+      //* CSV Support
+      {
+        test: /\.[ct]sv$/i,
+        exclude: /node_modules/,
+        use: "csv-loader",
+        generator: { outputPath: "assets/json", publicPath: "assets/json/" }
+      },
+      //* XML Support
+      {
+        test: /\.xml$/i,
+        exclude: /node_modules/,
+        use: "xml-loader",
+        generator: { outputPath: "assets/json", publicPath: "assets/json/" }
+      },
+      //* Typescript and Javascript Support
       {
         test: /\.[jt]sx?$/i,
         exclude: /node_modules/,
-        use: ["babel-loader"]
+        use: "babel-loader"
       },
+      //* CSS, SASS and SCSS Support
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.s?[ac]ss$/i,
         exclude: /node_modules/,
-        use: [
-          NODE_ENV === "development"
-            ? "style-loader"
-            : MiniCSSExtractPlugin.loader,
-          { loader: "css-loader", options: { importLoaders: 1 } },
-          "postcss-loader",
-          "sass-loader"
-        ]
-      },
-      {
-        test: /\.css?$/,
-        exclude: /node_modules/,
-        use: [
-          NODE_ENV === "development"
-            ? "style-loader"
-            : MiniCSSExtractPlugin.loader,
-          { loader: "css-loader", options: { importLoaders: 1 } },
-          "postcss-loader"
-        ]
-      },
-      { test: /\.(?:ico|gif|png|jp(2)?g)$/i, type: "asset/resource" },
-      { test: /\.(woff(2)?|eot|ttf|otf|svg)$/i, type: "asset/inline" }
+        use: StyleLoader
+      }
     ]
   },
+  //* Import resolver (how 'import Module from "./module"' gets resolved)
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx", ".scss", ".sass"]
+    //* Extensions to try to resolve in-order ('import Module from "./module"' might get resolved to 'import Module from "./module.tsx"')
+    extensions: [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".json5",
+      ".json",
+      ".scss",
+      ".sass",
+      ".css",
+      ".csv",
+      ".xml"
+    ]
   },
+  //* Enable auto-compiling while in development environment
   watch: NODE_ENV === "development",
+  //* How webpack resolves its loaders (custom loaders can be added to '{project_root}/loaders')
   resolveLoader: {
     modules: ["node_modules", Path.resolve(__dirname, "loaders")]
   },
@@ -64,7 +108,7 @@ const ConfigBase = {
     topLevelAwait: true
   },
   optimization: {
-    minimizer: ["...", new CSSMinimizerWebpackPlugin()]
+    minimizer: ["...", new CssMinimizerWebpackPlugin()]
   }
 }
 
@@ -110,13 +154,14 @@ const ClientConfig = {
         parallel: false
       }
     }),
-    new HTMLWebpackPlugin({
+    new HtmlWebpackPlugin({
       template: Path.resolve(__dirname, "src/client/index.html")
     })
   ],
   output: {
     path: Path.resolve(__dirname, "build/public"),
-    filename: "bundle.js"
+    filename: "bundle.js",
+    publicPath: "/"
   }
 }
 

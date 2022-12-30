@@ -12,4 +12,4 @@ export default function App() {
 }
 
 const AppWrapper = tw.div`w-screen min-h-screen flex flex-col items-center justify-center text-center`
-const AppContainer = tw.div`w-fit h-fit flex flex-col items-center justify-center gap-1 bg-gray-300 rounded-xl px-10 py-7 text-gray-900`
+const AppContainer = tw.div`w-fit h-fit flex flex-col items-center justify-center gap-1 bg-orange-300 rounded-xl px-10 py-7 text-gray-900 shadow-lg border border-gray-900`
