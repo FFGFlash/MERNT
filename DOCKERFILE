@@ -1,0 +1,26 @@
+# Setup Node Image
+FROM node:19
+
+# Define ENV variables
+# HTTP  Protocol - 80
+# HTTPS Protocol - 443
+ENV PORT=80
+ENV NODE_ENV=production
+
+# Create work directory
+WORKDIR /app
+
+# Load files
+COPY . .
+
+# Install App dependencies
+RUN npm ci --only=production
+
+# Build App
+RUN npm run build
+
+# Expose the port
+EXPOSE ${PORT}
+
+# Setup start command
+CMD [ "npm", "start" ]

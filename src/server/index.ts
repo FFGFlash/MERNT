@@ -89,14 +89,14 @@ App.use(
 App.use(Express.static(Path.join(__dirname, "public")))
 
 //* Render Front-End
-App.get("*", (_, res) =>
-  res.sendFile(Path.join(__dirname, "public/index.html"))
+App.get("*", (_, response) =>
+  response.sendFile(Path.join(__dirname, "public/index.html"))
 )
 
 //* Handle Server Side Errors
 App.use((err: Error, _: Request, res: Response, next: NextFunction) => {
-  if (res.headersSent) return next(err)
   Logger.error(err.message)
+  if (res.headersSent) return next(err)
   res.sendStatus(500)
 })
 
