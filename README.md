@@ -20,7 +20,7 @@ Created by FFGFlash, MERNT is a template repository for quickly embarking on a j
 
 ```bat
 npm start         & Rem Used to execute the server in production mode.
-npm run dev:start & Rem Used to execute the server in development mode.
 npm run build     & Rem Used to build the server for production.
-npm test          & Rem Used to test the project
+npm run dev:start & Rem Used to build and execute the server in development mode.
+npm test          & Rem Used to execute tests on the client and server.
 ```
