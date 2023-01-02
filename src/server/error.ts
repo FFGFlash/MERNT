@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { Logger } from "./app"
+import Logger from "./logger"
 
 export class StatusError {
   message: string
