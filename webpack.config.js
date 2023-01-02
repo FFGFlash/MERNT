@@ -6,6 +6,7 @@ const WebpackShellPlugin = require("webpack-shell-plugin-next")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const WebpackMerge = require("webpack-merge")
+const ESLintWebpackPlugin = require("eslint-webpack-plugin")
 
 const { NODE_ENV = "production" } = process.env
 
@@ -20,6 +21,7 @@ StyleLoader.unshift(
 
 const ConfigBase = {
   mode: NODE_ENV,
+  devtool: "source-map",
   module: {
     //* Used to add additional paths to the build directory
     generator: {
@@ -62,7 +64,7 @@ const ConfigBase = {
       },
       //* Typescript and Javascript Support
       {
-        test: /\.[jt]sx?$/i,
+        test: /\.m?[jt]sx?$/i,
         exclude: /node_modules/,
         use: "babel-loader"
       },
@@ -109,7 +111,12 @@ const ConfigBase = {
   },
   optimization: {
     minimizer: ["...", new CssMinimizerWebpackPlugin()]
-  }
+  },
+  plugins: [
+    new ESLintWebpackPlugin({
+      extensions: [".ts", ".tsx", ".js", ".jsx"]
+    })
+  ]
 }
 
 const ServerConfig = {

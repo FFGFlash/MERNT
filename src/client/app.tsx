@@ -2,7 +2,7 @@ import tw from "twin.macro"
 
 export default function App() {
   return (
-    <AppWrapper>
+    <AppWrapper data-testid="app-wrapper">
       <AppContainer>
         <h1>Your new app!</h1>
         <p>Built with NodeJS, ExpressJS, React, MongoDB and Typescript</p>

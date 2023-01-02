@@ -22,8 +22,7 @@
     "linebreak-style": ["error", "windows"],
     "quotes": ["error", "double"],
     "semi": ["error", "never"],
-    "no-console": ["error", { "allow": ["warn", "error"] }],
-    "@typescript-eslint/no-var-requires": ["error"]
+    "no-console": ["error", { "allow": ["warn", "error"] }]
   },
   "settings": {
     "react": {
@@ -31,4 +30,3 @@
     }
   }
 }
-
