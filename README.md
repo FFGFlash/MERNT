@@ -34,12 +34,40 @@ Created by FFGFlash, MERNT is a template repository for quickly embarking on a j
 
 ## Commands
 
+All available commands for installing, testing, building and executing the application.
+
 ```bat
 npm i --include=dev & Rem Install all the required dependencies for development and testing
 npm start           & Rem Used to execute the server in production mode.
 npm run build       & Rem Used to build the server for production.
 npm run dev:start   & Rem Used to build and execute the server in development mode.
 npm test            & Rem Used to execute tests on the client and server.
+```
+
+## Environment
+
+Environment variables that can be used to configure the server.
+
+- While in development these will be loaded from the ".env" file in the root directory
+- Otherwise for production these should be set on the global environment
+
+```sh
+# Define the port for the server to listen to
+PORT = "8080"
+# Define the MongoDB host to connect to
+MONGO_HOST = "mongodb://localhost"
+# Define the MongoDB database to connect to
+MONGO_DB = "example"
+# Define the MongoDB username
+MONGO_USER = "Admin"
+# Define the MongoDB password
+MONGO_PASS = "P@s5w0rD"
+# Define the MongoDB timeout time
+MONGO_TIMEOUT_MD = "5000"
+# Define the Cookie Secret
+SECRET = "some super secret string that should never be shared publicly"
+# Define the Environment (This can by ignored as it'll be set by the appropriate commands)
+NODE_ENV = "development"
 ```
 
 ## VSCode Setup (optional)
