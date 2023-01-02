@@ -1,4 +1,4 @@
-# MERNT <small>MERN Reimagined</small>
+# MERNT | <small>MERN Reimagined</small>
 
 Created by FFGFlash, MERNT is a template repository for quickly embarking on a journey with web development using an ExpressJS, MongoDB and NodeJS backend with a React frontend.
 
