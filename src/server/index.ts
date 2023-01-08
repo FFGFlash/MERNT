@@ -1,10 +1,10 @@
-import { Server as _Server } from "http"
-import { AddressInfo } from "net"
-import { App } from "./app"
-import Logger from "./logger"
+import { Server as _Server } from 'http'
+import { AddressInfo } from 'net'
+import { App } from './app'
+import Logger from './logger'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-process.env.NODE_ENV === "development" && require("dotenv").config()
+process.env.NODE_ENV === 'development' && require('dotenv').config()
 
 const { PORT = 8080 } = process.env
 

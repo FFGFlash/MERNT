@@ -14,7 +14,8 @@
     "declaration": true,
     "moduleResolution": "node",
     "baseUrl": ".",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src", "test"],
   "exclude": ["node_modules", "dist"]
